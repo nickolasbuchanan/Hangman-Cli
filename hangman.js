@@ -7,7 +7,7 @@ var letterDisplay = require('./letter.js');
 // Link in the word tester
 var answerCheck = require('./answerCheck.js');
 
-//Global 
+//Global
 var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 var lettersAlreadyGuessed = [];
 var lettersCorrectlyGuessed = [];
@@ -49,10 +49,9 @@ var game = {
 
 function promptUser(){
 
-  // Always make a gap between inputs
   console.log('');
 
-  // If enough guesses left, then prompt for new letter
+  // Guesses remaining then prompt for new letter
   if(game.guessesRemaining > 0){
     inquirer.prompt([
       {
@@ -62,14 +61,14 @@ function promptUser(){
       }
     ]).then(function(userInput){
 
-      // Collect Letter Input
+      // Collect letter input form the user
       var inputLetter = userInput.letter.toLowerCase();
 
-      // Valid input
+      // determine if able to use
       if(alphabet.indexOf(inputLetter) == -1){
 
         // Tell user they did not guess a letter
-        console.log('You shwasted! Dude, "' + inputLetter + '" is not a letter. Try again!');
+        console.log('Wrong!!, "' + inputLetter + '" is not an option... Guess again!');
         console.log('Guesses Left: ' + game.guessesRemaining);
         console.log('Letters already guessed: ' + lettersAlreadyGuessed);
         promptUser();
@@ -77,7 +76,7 @@ function promptUser(){
       }
       else if(alphabet.indexOf(inputLetter) != -1 && lettersAlreadyGuessed.indexOf(inputLetter) != -1){
 
-        // Tell user they already guessed that letter
+        // promt user already guessed that letter
         console.log('You have already guessed "' + inputLetter + '". Try again!');
         console.log('Guesses Left: ' + game.guessesRemaining);
         console.log('Letters already guessed: ' + lettersAlreadyGuessed);
@@ -86,10 +85,10 @@ function promptUser(){
       }
       else{
 
-        // Remove the entry from the list of possible inputs
+        // Remove guessed letter
         lettersAlreadyGuessed.push(inputLetter);
 
-        // Check for the letter in the word
+        // Check word for ltter
         var letterInWord = letterDisplay(inputLetter, game.currentWord);
 
         // If the letter is in the word, update the letter object
@@ -108,15 +107,12 @@ function promptUser(){
             console.log('You win! Congrats!');
             return;
           }
-          // Not a win yet, so ask for another input and decrement guesses
           else{
             console.log('Guesses Left: ' + game.guessesRemaining);
             console.log('Letters already guessed: ' + lettersAlreadyGuessed);
             promptUser();
           }
-
         }
-        // Otherwise, decrement guesses and re-prompt the old hangman object
         else{
           game.guessesRemaining--;
 
@@ -140,5 +136,5 @@ function promptUser(){
 }
 
 
-// Create a new game object using the game constructor
+// Create a new game
 game.startGame();
